@@ -1,5 +1,6 @@
 import pygame as pg
 import classes as Class
+import classes.square as sq
 # start the program
 pg.init()
 
@@ -16,31 +17,49 @@ dt = 0
 SCREEN = pg.display.set_mode((1280,720))
 CLOCK = pg.time.Clock()
 
-player_RECT = pg.Rect(WIDTH/2, HEIGHT/ 2, (WIDTH/2) -20 , (HEIGHT/2)-20)
+xspeed = 100
+yspeed = 100
 
+playersquare = sq.Player(92, 182, xspeed, yspeed, "red", 27, 27)
+# player_RECT = pg.Rect(92, 182, 27, 27)
+# vel1 = 100
 
 runtime = True
+
+keys = pg.key.get_pressed()
 
 
 while runtime: #while statement will continue until statement is false
     for event in pg.event.get(): #event.get is grabbing all events during runtime, then we are looping through those events
         if event.type == pg.QUIT: #this event refers to x button on a window
             runtime = False
+        # elif event.type == pg.KEYDOWN: 
+        if event.type == pg.KEYDOWN:
+            if event.key == pg.K_s:
+                playersquare.move('down') 
+            if event.key == pg.K_w: 
+                playersquare.move('up')
+        if event.type == pg.KEYUP:
+            if event.key == pg.K_s:
+                playersquare.move('up')
+            if event.key == pg.K_w:
+                playersquare.move('down')
+
+    
+            # if keys[pg.K_w]:
+            #     player_RECT.y -= 300 
+            # if keys[pg.K_s]:
+            #     player_RECT.y += 300
+            # if keys[pg.K_a]:
+            #     player_RECT.x -= 300 
+            # if keys[pg.K_d]:
+            #     player_RECT.x += 300 
 
     # fill the screen with a color to wipe away anything from last frame
     SCREEN.fill("black")
 
-    pg.draw.rect(SCREEN, "red", player_RECT, 40)
+   
 
-    keys = pg.key.get_pressed()
-    if keys[pg.K_w]:
-        player_RECT.y -= 300 * dt
-    if keys[pg.K_s]:
-        player_RECT.y += 300 * dt
-    if keys[pg.K_a]:
-        player_RECT.x -= 300 * dt
-    if keys[pg.K_d]:
-        player_RECT.x += 300 * dt
 
     # RENDER YOUR GAME HERE
     def gen_grid():
