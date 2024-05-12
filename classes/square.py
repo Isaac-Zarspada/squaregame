@@ -19,10 +19,10 @@ class Player:
         self.velx = vel
 
     def move_up(self, vel):
-        self.velx = -vel
+        self.vely = -vel
 
     def move_down(self, vel):
-        self.velx = vel
+        self.vely = vel
 
     def display(self, screen):
         screen.blit(self.surf,self.rect)
