@@ -11,16 +11,21 @@ WIDTH = 1280
 HEIGHT = 640
 PLAYER_VEL = 20
 FPS = 60
-window = pg.display.set_mode((WIDTH,HEIGHT))
+window = pg.display.set_mode((WIDTH,HEIGHT), pg.RESIZABLE)
 
 def handle_move(player):
     keys = pg.key.get_pressed()
     
     player.velx = 0
-    if keys[pg.K_a]:
+    player.vely = 0
+    if keys[pg.K_LEFT]:
         player.move_left(PLAYER_VEL)
-    if keys[pg.K_d]:
+    if keys[pg.K_RIGHT]:
         player.move_right(PLAYER_VEL)
+    if keys[pg.K_UP]:
+        player.move_up(PLAYER_VEL)
+    if keys[pg.K_DOWN]:
+        player.move_down(PLAYER_VEL)
 
 # def main(window):
 clock = pg.time.Clock()
