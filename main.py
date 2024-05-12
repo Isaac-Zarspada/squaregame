@@ -1,6 +1,5 @@
 import pygame as pg
-import classes as Class
-import classes.square as sq
+from classes import grid as g, square as sq
 # start the program
 pg.init()
 
@@ -10,71 +9,46 @@ BLACK = (0,0,0)
 BLOCK_SIZE = 30
 WIDTH = 1280
 HEIGHT = 640
+PLAYER_VEL = 20
+FPS = 60
+window = pg.display.set_mode((WIDTH,HEIGHT))
 
-dt = 0
+def handle_move(player):
+    keys = pg.key.get_pressed()
+    
+    player.velx = 0
+    if keys[pg.K_a]:
+        player.move_left(PLAYER_VEL)
+    if keys[pg.K_d]:
+        player.move_right(PLAYER_VEL)
 
-
-SCREEN = pg.display.set_mode((1280,720))
-CLOCK = pg.time.Clock()
-
-xspeed = 100
-yspeed = 100
-
-playersquare = sq.Player(92, 182, xspeed, yspeed, "red", 27, 27)
-# player_RECT = pg.Rect(92, 182, 27, 27)
-# vel1 = 100
+# def main(window):
+clock = pg.time.Clock()
+    
+player1 = sq.Player(100, 100, 27, 27)
 
 runtime = True
-
-keys = pg.key.get_pressed()
-
-
 while runtime: #while statement will continue until statement is false
+    clock.tick(FPS)  # limits FPS to 60
+    
     for event in pg.event.get(): #event.get is grabbing all events during runtime, then we are looping through those events
         if event.type == pg.QUIT: #this event refers to x button on a window
             runtime = False
-        # elif event.type == pg.KEYDOWN: 
-        if event.type == pg.KEYDOWN:
-            if event.key == pg.K_s:
-                playersquare.move('down') 
-            if event.key == pg.K_w: 
-                playersquare.move('up')
-        if event.type == pg.KEYUP:
-            if event.key == pg.K_s:
-                playersquare.move('up')
-            if event.key == pg.K_w:
-                playersquare.move('down')
-
+    # RENDER GAME HERE
+    window.fill("black")
+    g.gen_grid(window)
     
-            # if keys[pg.K_w]:
-            #     player_RECT.y -= 300 
-            # if keys[pg.K_s]:
-            #     player_RECT.y += 300
-            # if keys[pg.K_a]:
-            #     player_RECT.x -= 300 
-            # if keys[pg.K_d]:
-            #     player_RECT.x += 300 
 
-    # fill the screen with a color to wipe away anything from last frame
-    SCREEN.fill("black")
-
-   
-
-
-    # RENDER YOUR GAME HERE
-    def gen_grid():
-        for x in range(0, WIDTH, BLOCK_SIZE):
-            for y in range(0, HEIGHT, BLOCK_SIZE):
-                rect = pg.Rect(x, y, BLOCK_SIZE, BLOCK_SIZE)
-                pg.draw.rect(SCREEN, WHITE, rect, 1)  # Draw grid lines
-
-    gen_grid()
-
+    player1.loop(FPS)
+    handle_move(player1)
+    player1.draw(window)
+    pg.display.update()
 
     # flip() the display to put your work on screen
     pg.display.flip()
 
-    CLOCK.tick(60)  # limits FPS to 60
 
-# closes game window
+    # closes game window
 pg.quit()
+
+# if __init__ == "main"
